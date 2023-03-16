@@ -28,6 +28,14 @@ class BotTenderTokenizerInputSuite
     evaluateInput("quitter")
   }
 
+  // You can use this test to debug an input phrase
+  property("inputting-phrases") {
+    evaluateInput("Je veux 12 bières et 4 croissants, stp.")
+    evaluateInput("J'aimerais 2 bières stp !")
+    evaluateInput("Bonjour, je suis _Michel !")
+    evaluateInput("bonuour ja veut 8 bbères et 5 crsoiasabsdts stppp...")
+  }
+
   // You can use this to debug Utils.ClinksCalculator.factorial
   property("test-factorial") {
     ClinksCalculator.factorial(3) should equal(6)
