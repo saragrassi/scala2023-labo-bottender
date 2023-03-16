@@ -14,12 +14,10 @@ class TokenizerService(spellCheckerSvc: SpellCheckerService):
   def tokenize(input: String): Tokenized =
     val tokens =
       input
-        .replaceAll("[.,!?*'']", " ")
+        .replaceAll("[.,!?*']", " ")
         .split("\\s+")
-        // .toList
         .map(w => spellCheckerSvc.getClosestWordInDictionary(w))
         .map(w => toTuple(w))
-        .toArray
     TokenizedImpl(tokens)
   end tokenize
 

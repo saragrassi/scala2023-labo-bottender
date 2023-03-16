@@ -31,4 +31,5 @@ object ClinksCalculator:
     val comb = factorial(n) / (factorial(k) * factorial(n - k))
     comb.toInt
   end calculateCombination
+
 end ClinksCalculator

@@ -31,6 +31,7 @@ end SpellCheckerService
 
 class SpellCheckerImpl(val dictionary: Map[String, String])
     extends SpellCheckerService:
+
   // TODO - Part 1 Step 2
   def stringDistance(str1: String, str2: String): Int =
     val len1 = str1.length
@@ -46,30 +47,20 @@ class SpellCheckerImpl(val dictionary: Map[String, String])
       )
     matrix(len1)(len2)
   end stringDistance
+
   // TODO - Part 1 Step 2
-
-  def getDistancesToDictionary(misspelledWord: String): List[(Int, String)] =
-    dictionary.keys.toList.map(word =>
-      (stringDistance(misspelledWord, word), word)
-    )
-  end getDistancesToDictionary
-
   def getClosestWordInDictionary(misspelledWord: String): String =
     // Check if the word is a number
-    if (misspelledWord.forall(_.isDigit)) {
-      return misspelledWord
-    }
+    if (misspelledWord.forall(_.isDigit)) return misspelledWord
     // Check if the word is a pseudonym
-    if (misspelledWord.startsWith("_")) {
-      return misspelledWord
-    }
+    if (misspelledWord.startsWith("_")) return misspelledWord
     // return the normalized word if the word is in the dictionary
-    if (dictionary.contains(misspelledWord)) {
-      return dictionary(misspelledWord)
-    }
-    // find the key with the lowest score
-    // if more than one, get the lowest key
-    val lst = getDistancesToDictionary(misspelledWord)
+    if (dictionary.contains(misspelledWord)) return dictionary(misspelledWord)
+
+    // find the lowest key with the lowest score
+    val lst = dictionary.keys
+      .map(w => (stringDistance(misspelledWord, w), w))
+      .toList
     val (minKey, minValue) = lst.minBy(_._1)
     val key = lst.filter(_._1 == minKey).sortBy(_._2).head._2
     return dictionary(key)
