@@ -55,7 +55,7 @@ class BotTenderTokenizerInputSuite
   property("test-levenshtein") {
     spellCheckerSvc.stringDistance("diète", "diète") should equal(0)
     spellCheckerSvc.stringDistance("bière", "bière") should equal(0)
-    spellCheckerSvc.stringDistance("dièto", "bière") should equal(3)
+    spellCheckerSvc.stringDistance("diète", "bière") should equal(2)
     // identical
     spellCheckerSvc.stringDistance("hello", "hello") should equal(0)
     // same length and differ by one character

@@ -34,36 +34,29 @@ class SpellCheckerImpl(val dictionary: Map[String, String])
 
   // TODO - Part 1 Step 2
   def stringDistance(str1: String, str2: String): Int =
-    val len1 = str1.length
-    val len2 = str2.length
-    val matrix = Array.ofDim[Int](len1 + 1, len2 + 1)
-    for i <- 0 to len1 do matrix(i)(0) = i
-    for j <- 0 to len2 do matrix(0)(j) = j
-    for i <- 1 to len1; j <- 1 to len2 do
-      val cost = if (str1(i - 1) == str2(j - 1)) 0 else 1
-      matrix(i)(j) = math.min(
-        math.min(matrix(i - 1)(j) + 1, matrix(i)(j - 1) + 1),
-        matrix(i - 1)(j - 1) + cost
-      )
-    matrix(len1)(len2)
+    def lev(a: String, b: String): Int = {
+      if (a.length.min(b.length) == 0) a.length.max(b.length)
+      else if (a.head == b.head) lev(a.tail, b.tail)
+      else (1 + lev(a.tail, b).min(lev(a, b.tail)).min(lev(a.tail, b.tail)))
+    }
+    lev(str1, str2)
   end stringDistance
 
   // TODO - Part 1 Step 2
   def getClosestWordInDictionary(misspelledWord: String): String =
-    // Check if the word is a number
+
+    // deal with number, pseudo, and word in dictionnary
     if (misspelledWord.forall(_.isDigit)) return misspelledWord
-    // Check if the word is a pseudonym
     if (misspelledWord.startsWith("_")) return misspelledWord
-    // return the normalized word if the word is in the dictionary
     if (dictionary.contains(misspelledWord)) return dictionary(misspelledWord)
 
-    // find the lowest key with the lowest score
+    // find the (alphabetically lowest) key with the lowest score
     val lst = dictionary.keys
       .map(w => (stringDistance(misspelledWord, w), w))
       .toList
     val (minKey, minValue) = lst.minBy(_._1)
     val key = lst.filter(_._1 == minKey).sortBy(_._2).head._2
-    return dictionary(key)
+    return dictionary(key) // return normalized version
 
   end getClosestWordInDictionary
 
