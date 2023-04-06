@@ -23,6 +23,7 @@ class TokenizerService(spellCheckerSvc: SpellCheckerService):
   end tokenize
 
   def toTuple(word: String): (String, Token) =
+    val marques = List("maison", "cailler");
     word match {
       case "bonjour"                => ("bonjour", Token.BONJOUR)
       case "je"                     => ("je", Token.JE)
@@ -35,6 +36,20 @@ class TokenizerService(spellCheckerSvc: SpellCheckerService):
       case "et"                     => ("et", Token.ET)
       case "ou"                     => ("ou", Token.OU)
       case "svp"                    => ("svp", Token.SVP)
+      case "maison"                 => ("maison", Token.MARQUE)
+      case "cailler"                => ("cailler", Token.MARQUE)
+      case "farmer"                 => ("farmer", Token.MARQUE)
+      case "boxer"                  => ("boxer", Token.MARQUE)
+      case "wittekop"               => ("wittekop", Token.MARQUE)
+      case "punkipa"                => ("punkipa", Token.MARQUE)
+      case "jackhammer"             => ("jackhammer", Token.MARQUE)
+      case "tenebreuse"             => ("tenebreuse", Token.MARQUE)
+      case "commander"              => ("commander", Token.COMMANDER)
+      case "combien"                => ("combien", Token.COMBIEN)
+      case "coute"                  => ("coute", Token.COUTER)
+      case "connaitre"              => ("connaitre", Token.CONNAITRE)
+      case "mon"                    => ("mon", Token.MON)
+      case "solde"                  => ("solde", Token.SOLDE)
       case w if w.startsWith("_")   => (w, Token.PSEUDO)
       case w if w.forall(_.isDigit) => (w, Token.NUM)
       case _                        => (word, Token.UNKNOWN)
