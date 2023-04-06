@@ -24,6 +24,13 @@ trait ProductService:
     */
   def getPrice(product: ProductName): Double
 
+  /** Get the default brand of a product
+    *
+    * @param product
+    *   the product name
+    * @return
+    *   the default brand of the product
+    */
   def getDefaultBrand(product: ProductName): BrandName
 
 class ProductImpl extends ProductService:
