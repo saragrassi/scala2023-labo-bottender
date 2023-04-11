@@ -47,7 +47,14 @@ object Dictionary:
     "connaitre" -> "connaitre",
     "mon" -> "mon",
     "solde" -> "solde",
-    "m" -> "me"
+    "m" -> "me",
+    "me" -> "me",
+    "quel" -> "quel",
+    "est" -> "etre",
+    "le" -> "le",
+    "prix" -> "prix",
+    "de" -> "de",
+    "appelle" -> "appeler"
   )
 
 end Dictionary
