@@ -12,18 +12,12 @@ object ExprTree:
   case object Greeting extends ExprTree
   case object Thirsty extends ExprTree
   case object Hungry extends ExprTree
-  case object Price extends ExprTree
+  case class Price(product: ExprTree) extends ExprTree
   case object Order extends ExprTree
   case object GetBalance extends ExprTree
   case class Identification(user: String) extends ExprTree
-  // case object Quel extends ExprTree
-  // case object Combien extends ExprTree
-  // case object Je extends ExprTree
-  // case object Pseudo extends ExprTree
-
-  // case class And(left: ExprTree, right: ExprTree) extends ExprTree
-  // case class Or(left: ExprTree, right: ExprTree) extends ExprTree
-  // case class Product(num: Int, brand: String) extends ExprTree
-  // case class Order(num: Int, brand: String) extends ExprTree
-  // case class Price(num: Int, brand: String) extends ExprTree
-  // case class Payment(user: String, amount: Int) extends ExprTree
+  case class Products(num: Int, brand: String) extends ExprTree
+  case class Product(num: Int, productType: String, brand: Option[String])
+      extends ExprTree
+  case class And(left: ExprTree, right: ExprTree) extends ExprTree
+  class Or(left: ExprTree, right: ExprTree) extends ExprTree

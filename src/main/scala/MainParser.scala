@@ -94,6 +94,12 @@ object MainParser:
       evaluateInput(tokenizerSvc, analyzerSvc, session)(
         "je veux connaître mon solde"
       )
+      evaluateInput(tokenizerSvc, analyzerSvc, session)(
+        "Combien coûte 1 bière PunkIPA ?"
+      )
+      evaluateInput(tokenizerSvc, analyzerSvc, session)(
+        "Quel est le prix de 2 bière ?"
+      )
       evaluateInput(tokenizerSvc, analyzerSvc, session)("quitter")
     do ()
   end main

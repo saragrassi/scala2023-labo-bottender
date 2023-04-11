@@ -55,12 +55,26 @@ class Parser(tokenized: Tokenized):
     eat(LE)
     eat(PRIX)
     eat(DE)
-    Price
+    val product = parseProduct()
+    Price(product)
 
   // parse the "combien" "couter" "produits" phrases
   def parseCombien(): ExprTree =
     eat(COUTER)
-    Price
+    val product = parseProduct()
+    Price(product)
+
+  /*   def parseProduct(): ExprTree =
+    val num = eat(NUM).toInt
+    val product = eat(PRODUIT)
+    val brand = eat(MARQUE)
+    Product(num, product, brand) */
+
+  def parseProduct(): ExprTree =
+    val num = eat(NUM).toInt
+    val product = eat(PRODUIT)
+    if curToken == MARQUE then Product(num, product, Some(eat(MARQUE)))
+    else Product(num, product, None)
 
   // parse the "je" ("vouloir" | "etre" | "me") phrases
   def parseJe(): ExprTree =

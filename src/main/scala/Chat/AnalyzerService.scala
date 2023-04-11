@@ -11,7 +11,15 @@ class AnalyzerService(productSvc: ProductService, accountSvc: AccountService):
     *   the result of the computation
     */
   // TODO - Part 2 Step 3
-  def computePrice(t: ExprTree): Double = ??? // TODO - Part 2 Step 3
+  def computePrice(t: ExprTree): Double = t match
+    case Price(product)       => computePrice(product)
+    case Products(num, brand) => num * productSvc.getPrice(brand)
+    case Product(num, productType, brand) =>
+      num * productSvc.getPrice(
+        productType,
+        brand.getOrElse(productSvc.getDefaultBrand(productType))
+      )
+    case _ => 0.0
 
   /** Return the output text of the current node, in order to write it in
     * console.
@@ -33,21 +41,25 @@ class AnalyzerService(productSvc: ProductService, accountSvc: AccountService):
         "Eh bien, la chance est de votre côté, car nous offrons les meilleures bières de la région !"
       case Hungry =>
         "Pas de soucis, nous pouvons notamment vous offrir des croissants faits maisons !"
-      case Price => "Price"
+      // case Price => "Price"
       case Order => "Order"
-      case GetBalance => {
+
+      case GetBalance =>
         if (session.getCurrentUser.isEmpty)
           return "Veuillez d'abord vous identifier."
         else
           val user = session.getCurrentUser.getOrElse("inconnu")
           val balance = accountSvc.getAccountBalance(user)
           s"Le montant actuel de votre solde est de CHF ${balance}."
-      }
-      case Identification(user) => {
+
+      case Identification(user) =>
         if (!accountSvc.isAccountExisting(user))
           accountSvc.addAccount(user, 30.0)
         session.setCurrentUser(user)
         "Bonjour, " + user + " !"
-      }
+
+      case Price(product) =>
+        val price = computePrice(product);
+        s"Cela coûte CHF $price."
 
 end AnalyzerService
