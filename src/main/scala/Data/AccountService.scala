@@ -45,7 +45,7 @@ class AccountImpl extends AccountService:
   def addAccount(user: String, balance: Double): Unit =
     if (isAccountExisting(user))
       throw new IllegalArgumentException("Account already exists")
-      accounts += (user -> balance)
+    accounts += (user -> balance)
   def isAccountExisting(user: String): Boolean = accounts.contains(user)
   def purchase(user: String, amount: Double): Double =
     if (!isAccountExisting(user))

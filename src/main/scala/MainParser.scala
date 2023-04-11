@@ -75,17 +75,26 @@ object MainParser:
 
     while
       print("> ")
-      evaluateInput(tokenizerSvc, analyzerSvc, session)(StdIn.readLine)
+      // evaluateInput(tokenizerSvc, analyzerSvc, session)(StdIn.readLine)
+      evaluateInput(tokenizerSvc, analyzerSvc, session)(
+        "Bonjour, je suis assoiffé !"
+      )
+      evaluateInput(tokenizerSvc, analyzerSvc, session)(
+        "Bonjour, je suis affamé !"
+      )
+
+      evaluateInput(tokenizerSvc, analyzerSvc, session)(
+        "je veux connaître mon solde"
+      )
+      evaluateInput(tokenizerSvc, analyzerSvc, session)("je suis _Sara")
+      evaluateInput(tokenizerSvc, analyzerSvc, session)(
+        "je veux connaître mon solde"
+      )
+      evaluateInput(tokenizerSvc, analyzerSvc, session)("je m'appelle _Michel")
+      evaluateInput(tokenizerSvc, analyzerSvc, session)(
+        "je veux connaître mon solde"
+      )
+      evaluateInput(tokenizerSvc, analyzerSvc, session)("quitter")
     do ()
   end main
 end MainParser
-
-// evaluateInput(tokenizerSvc, analyzerSvc, session)(
-//   "Bonjour, je suis assoiffé !"
-// )
-// evaluateInput(tokenizerSvc, analyzerSvc, session)(
-//   "Bonjour, je suis affamé !"
-// )
-// evaluateInput(tokenizerSvc, analyzerSvc, session)("je suis _Sara")
-// evaluateInput(tokenizerSvc, analyzerSvc, session)("je suis _Michel")
-// evaluateInput(tokenizerSvc, analyzerSvc, session)("quitter")

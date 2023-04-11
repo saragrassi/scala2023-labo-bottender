@@ -55,12 +55,12 @@ class Parser(tokenized: Tokenized):
     eat(LE)
     eat(PRIX)
     eat(DE)
-    parseProduct
+    Price
 
   // parse the "combien" "couter" "produits" phrases
   def parseCombien(): ExprTree =
     eat(COUTER)
-    parseProduct
+    Price
 
   // parse the "je" ("vouloir" | "etre" | "me") phrases
   def parseJe(): ExprTree =
@@ -70,24 +70,24 @@ class Parser(tokenized: Tokenized):
       case ME      => readToken(); parseMe()
       case _       => expected(ETRE, VOULOIR, ME)
 
-  // parse the "je vouloir" ("commander" | "connaître") phrases
+  // parse: "je vouloir" ("commander" | "connaître")
   def parseVouloir(): ExprTree =
     curToken match
       case COMMANDER => readToken(); parseCommander()
       case CONNAITRE => readToken(); parseConnaitre()
       case _         => expected(COMMANDER, CONNAITRE)
 
-  // parse the "je vouloir commander" "produits" phrases
+  // parse: "je vouloir commander" "produits"
   def parseCommander(): ExprTree =
-    Commander
+    Order
 
-  // parse the "je vouloir connaître" "mon" "solde" phrases
+  // parse: "je vouloir connaître" "mon" "solde"
   def parseConnaitre(): ExprTree =
     eat(MON)
     eat(SOLDE)
-    Connaitre
+    GetBalance
 
-  // parse the "je etre" ("assoiffé" | "affamé" | "pseudo") phrases
+  // parse: "je etre" ("assoiffé" | "affamé" | "pseudo")
   def parseEtre(): ExprTree =
     curToken match
       case ASSOIFFE => readToken(); Thirsty
@@ -95,7 +95,7 @@ class Parser(tokenized: Tokenized):
       case PSEUDO   => Identification(eat(PSEUDO).stripPrefix("_"))
       case _        => expected(ASSOIFFE, AFFAME, PSEUDO)
 
-  // parse the "je me" "appeler" "pseudo" phrases
+  // parse: "je me" "appeler" "pseudo"
   def parseMe(): ExprTree =
     eat(APPELLER)
     Identification(eat(PSEUDO).stripPrefix("_"))

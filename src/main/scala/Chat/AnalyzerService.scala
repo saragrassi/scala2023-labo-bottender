@@ -11,7 +11,7 @@ class AnalyzerService(productSvc: ProductService, accountSvc: AccountService):
     *   the result of the computation
     */
   // TODO - Part 2 Step 3
-  def computePrice(t: ExprTree): Double = ???
+  def computePrice(t: ExprTree): Double = ??? // TODO - Part 2 Step 3
 
   /** Return the output text of the current node, in order to write it in
     * console.
@@ -28,20 +28,20 @@ class AnalyzerService(productSvc: ProductService, accountSvc: AccountService):
     t match
       // TODO - Part 2 Step 3
       // Example cases
+      case Greeting => "Bonjour, que puis-je faire pour vous ?"
       case Thirsty =>
         "Eh bien, la chance est de votre côté, car nous offrons les meilleures bières de la région !"
       case Hungry =>
         "Pas de soucis, nous pouvons notamment vous offrir des croissants faits maisons !"
-      case Quel      => "Quel, et puis quoi encore ?"
-      case Combien   => "Combien, et puis quoi encore ?"
-      case Greeting  => "Bonjour, que puis-je faire pour vous ?"
-      case Je        => "Je, et puis quoi encore ?"
-      case Pseudo    => "Pseudo, et puis quoi encore ?"
-      case Commander => "Commander, et puis quoi encore ?"
-      case Connaitre => {
-        val user = session.getCurrentUser.getOrElse("inconnu")
-        val balance = accountSvc.getAccountBalance(user)
-        s"Votre solde est ${balance} CHF."
+      case Price => "Price"
+      case Order => "Order"
+      case GetBalance => {
+        if (session.getCurrentUser.isEmpty)
+          return "Veuillez d'abord vous identifier."
+        else
+          val user = session.getCurrentUser.getOrElse("inconnu")
+          val balance = accountSvc.getAccountBalance(user)
+          s"Le montant actuel de votre solde est de CHF ${balance}."
       }
       case Identification(user) => {
         if (!accountSvc.isAccountExisting(user))
@@ -49,6 +49,5 @@ class AnalyzerService(productSvc: ProductService, accountSvc: AccountService):
         session.setCurrentUser(user)
         "Bonjour, " + user + " !"
       }
-      case parseProduct => "parseProduct"
 
 end AnalyzerService
