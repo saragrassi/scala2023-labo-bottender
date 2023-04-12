@@ -73,44 +73,39 @@ object MainParser:
 
     val session = sessionSvc.create()
 
+    var i = 0
     while
-      // print("> ")
-      // evaluateInput(tokenizerSvc, analyzerSvc, session)(StdIn.readLine)
-      evaluateInput(tokenizerSvc, analyzerSvc, session)(
-        "Bonjour, je suis assoiffé !"
-      )
-      evaluateInput(tokenizerSvc, analyzerSvc, session)(
-        "Bonjour, je suis affamé !"
-      )
-
-      evaluateInput(tokenizerSvc, analyzerSvc, session)(
-        "je veux connaître mon solde"
-      )
-      evaluateInput(tokenizerSvc, analyzerSvc, session)("je suis _Sara")
-      evaluateInput(tokenizerSvc, analyzerSvc, session)(
-        "je veux connaître mon solde"
-      )
-      evaluateInput(tokenizerSvc, analyzerSvc, session)("je m'appelle _Michel")
-      evaluateInput(tokenizerSvc, analyzerSvc, session)(
-        "je veux connaître mon solde"
-      )
-      evaluateInput(tokenizerSvc, analyzerSvc, session)(
-        "Combien coûte 1 bière PunkIPA ?"
-      )
-      evaluateInput(tokenizerSvc, analyzerSvc, session)(
-        "Quel est le prix de 2 bières tenebreuses ?"
-      )
-      evaluateInput(tokenizerSvc, analyzerSvc, session)(
-        "Quel est le prix de 2 bières tenebreuses et 1 bière PunkIPA ?"
-      )
-      evaluateInput(tokenizerSvc, analyzerSvc, session)(
-        "Quel est le prix de 2 bières PunkIPAs et 1 bière Ténébreuse.?"
-      )
-      evaluateInput(tokenizerSvc, analyzerSvc, session)(
-        "je veux commander 2 bières PunkIPAs et 1 bière Ténébreuse."
-      )
-
-      evaluateInput(tokenizerSvc, analyzerSvc, session)("quitter")
+      print("> ")
+      var line = testPhrases(i % testPhrases.length)
+      i += 1
+      println(line)
+      evaluateInput(tokenizerSvc, analyzerSvc, session)(line)
     do ()
   end main
+
+  // evaluateInput(tokenizerSvc, analyzerSvc, session)(StdIn.readLine)
+
+  private val testPhrases = List(
+    "Je suis assoiffé !",
+    "Je suis affamé !",
+    "Bonjour, je suis assoiffé !",
+    "J'aimerais commander 3 bières PunkIPAs !",
+    "Je suis _Michel.",
+    "Combien coûte 1 bière PunkIPA ?",
+    "J'aimerais connaitre mon solde.",
+    "Je veux commander 2 bières PunkIPAs et 1 bière Ténébreuse.",
+    "Je voudrais commander 1 croissant.",
+    "Bonjour ! Je suis _Bobby.",
+    "Je suis affamé !",
+    "Je veux commander 2 croissants cailler.",
+    "Je veux connaître mon solde.",
+    "Je suis _Michel.",
+    "Je veux connaïtre mon solde.",
+    "J'aimerais commander 18 bières Farmer.",
+    "J'aimerais commander 1 bière.",
+    "Santé !",
+    "Combien coute 1 bière PunkIPA et 1 bière boxer ou 1 biere farmer ou 1 bière tenebreuse et 1 bière boxer?",
+    "Quitter"
+  )
+
 end MainParser

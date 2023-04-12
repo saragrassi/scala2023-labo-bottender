@@ -37,6 +37,23 @@ class AnalyzerService(productSvc: ProductService, accountSvc: AccountService):
       else (rightResult._1, right)
     case _ => (0.0, t)
 
+  /** Helper to transform an order in a string for feedback to the user.
+    *
+    * @param e
+    *   the expression tree to transform
+    * @return
+    *   the string representation of the order
+    */
+  def showExprTree(e: ExprTree): String = e match {
+    case Product(num, "biere", brand) =>
+      s"$num ${brand.getOrElse(productSvc.getDefaultBrand("biere"))}"
+    case Product(num, productType, brand) =>
+      s"$num $productType ${brand.getOrElse(productSvc.getDefaultBrand(productType))} "
+    case And(left, right) =>
+      s"${showExprTree(left)} et ${showExprTree(right)}"
+    case _ => e.show
+  }
+
   /** Return the output text of the current node, in order to write it in
     * console.
     * @param session
@@ -75,22 +92,23 @@ class AnalyzerService(productSvc: ProductService, accountSvc: AccountService):
         "Bonjour, " + user + " !"
 
       case Price(product) =>
-        val price = computePrice(product);
+        val price = computePrice(product)._1
         s"Cela coûte CHF $price."
 
       case Order(product) =>
-        val price = computePrice(product);
         if (session.getCurrentUser.isEmpty)
           return "Veuillez d'abord vous identifier."
         else
+          val price = computePrice(product)._1;
+          val order = computePrice(product)._2;
           val user = session.getCurrentUser.getOrElse("inconnu")
           val balance = accountSvc.getAccountBalance(user)
-          if (balance < price._1)
+          if (balance < price)
             return "Vous n'avez pas assez d'argent sur votre compte."
           else
-            val newbalance = accountSvc.purchase(user, price._1)
-            s"Cela coûte CHF $price et votre nouveau solde est de CHF $newbalance."
+            val newbalance = accountSvc.purchase(user, price)
+            s"Voici donc ${showExprTree(order)} ! Cela coûte CHF $price et votre nouveau solde est de CHF $newbalance."
 
-      case _ => "Opération non reconnue."
+      case _ => "Expression non reconnue."
 
 end AnalyzerService
