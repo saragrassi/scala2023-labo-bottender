@@ -39,7 +39,7 @@ class Parser(tokenized: Tokenized):
   /** the root method of the parser: parses an entry phrase */
   // TODO - Part 2 Step 4
 
-  // parse the ["bonjour"] ("quel" | "combien" | "je") phrases
+  // parse: ["bonjour"] ("quel" | "combien" | "je")
   def parsePhrases(): ExprTree =
     if curToken == BONJOUR then readToken()
     curToken match
@@ -49,32 +49,41 @@ class Parser(tokenized: Tokenized):
       case EOL     => readToken(); Greeting;
       case _       => expected(JE, QUEL, COMBIEN)
 
-  // parse the "quel" "etre" "le" "prix" "de" "produits" phrases
+  // parse: "quel" "etre" "le" "prix" "de" "produits"
   def parseQuel(): ExprTree =
     eat(ETRE)
     eat(LE)
     eat(PRIX)
     eat(DE)
-    val product = parseProduct()
-    Price(product)
+    val products = parseProducts()
+    Price(products)
 
-  // parse the "combien" "couter" "produits" phrases
+  // parse: "combien" "couter" "produits"
   def parseCombien(): ExprTree =
     eat(COUTER)
-    val product = parseProduct()
-    Price(product)
+    val products = parseProducts()
+    Price(products)
 
-  /*   def parseProduct(): ExprTree =
-    val num = eat(NUM).toInt
-    val product = eat(PRODUIT)
-    val brand = eat(MARQUE)
-    Product(num, product, brand) */
-
+  // parse: "num" "produit" ["marque"]
   def parseProduct(): ExprTree =
     val num = eat(NUM).toInt
     val product = eat(PRODUIT)
     if curToken == MARQUE then Product(num, product, Some(eat(MARQUE)))
     else Product(num, product, None)
+
+  // parse: "produits" ("et" "produits" | "ou" "produits" | EOL)
+  def parseProducts(): ExprTree =
+    val firstProduct = parseProduct()
+    curToken match
+      case ET =>
+        eat(ET)
+        And(firstProduct, parseProducts())
+      case OU =>
+        eat(OU)
+        Or(firstProduct, parseProducts())
+      case EOL =>
+        firstProduct
+      case _ => expected(ET, OU, EOL)
 
   // parse the "je" ("vouloir" | "etre" | "me") phrases
   def parseJe(): ExprTree =
@@ -93,7 +102,8 @@ class Parser(tokenized: Tokenized):
 
   // parse: "je vouloir commander" "produits"
   def parseCommander(): ExprTree =
-    Order
+    val products = parseProducts()
+    Order(products)
 
   // parse: "je vouloir connaître" "mon" "solde"
   def parseConnaitre(): ExprTree =

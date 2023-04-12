@@ -74,7 +74,7 @@ object MainParser:
     val session = sessionSvc.create()
 
     while
-      print("> ")
+      // print("> ")
       // evaluateInput(tokenizerSvc, analyzerSvc, session)(StdIn.readLine)
       evaluateInput(tokenizerSvc, analyzerSvc, session)(
         "Bonjour, je suis assoiffé !"
@@ -98,8 +98,18 @@ object MainParser:
         "Combien coûte 1 bière PunkIPA ?"
       )
       evaluateInput(tokenizerSvc, analyzerSvc, session)(
-        "Quel est le prix de 2 bière ?"
+        "Quel est le prix de 2 bières tenebreuses ?"
       )
+      evaluateInput(tokenizerSvc, analyzerSvc, session)(
+        "Quel est le prix de 2 bières tenebreuses et 1 bière PunkIPA ?"
+      )
+      evaluateInput(tokenizerSvc, analyzerSvc, session)(
+        "Quel est le prix de 2 bières PunkIPAs et 1 bière Ténébreuse.?"
+      )
+      evaluateInput(tokenizerSvc, analyzerSvc, session)(
+        "je veux commander 2 bières PunkIPAs et 1 bière Ténébreuse."
+      )
+
       evaluateInput(tokenizerSvc, analyzerSvc, session)("quitter")
     do ()
   end main
