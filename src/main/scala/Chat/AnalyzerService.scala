@@ -48,7 +48,7 @@ class AnalyzerService(productSvc: ProductService, accountSvc: AccountService):
     case Product(num, "biere", brand) =>
       s"$num ${brand.getOrElse(productSvc.getDefaultBrand("biere"))}"
     case Product(num, productType, brand) =>
-      s"$num $productType ${brand.getOrElse(productSvc.getDefaultBrand(productType))} "
+      s"$num $productType ${brand.getOrElse(productSvc.getDefaultBrand(productType))}"
     case And(left, right) =>
       s"${showExprTree(left)} et ${showExprTree(right)}"
     case _ => e.show
@@ -91,16 +91,16 @@ class AnalyzerService(productSvc: ProductService, accountSvc: AccountService):
         session.setCurrentUser(user)
         "Bonjour, " + user + " !"
 
-      case Price(product) =>
-        val price = computePrice(product)._1
+      case Price(products) =>
+        val price = computePrice(products)._1
         s"Cela coûte CHF $price."
 
-      case Order(product) =>
+      case Order(products) =>
         if (session.getCurrentUser.isEmpty)
           return "Veuillez d'abord vous identifier."
         else
-          val price = computePrice(product)._1;
-          val order = computePrice(product)._2;
+          val price = computePrice(products)._1;
+          val order = computePrice(products)._2;
           val user = session.getCurrentUser.getOrElse("inconnu")
           val balance = accountSvc.getAccountBalance(user)
           if (balance < price)

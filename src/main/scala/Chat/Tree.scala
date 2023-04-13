@@ -24,8 +24,8 @@ object ExprTree:
   case object Greeting extends ExprTree
   case object Thirsty extends ExprTree
   case object Hungry extends ExprTree
-  case class Price(product: ExprTree) extends ExprTree
-  case class Order(Products: ExprTree) extends ExprTree
+  case class Price(products: ExprTree) extends ExprTree
+  case class Order(products: ExprTree) extends ExprTree
   case object GetBalance extends ExprTree
   case class Identification(user: String) extends ExprTree
   case class Products(num: Int, brand: String) extends ExprTree

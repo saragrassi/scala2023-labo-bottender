@@ -76,14 +76,13 @@ object MainParser:
     var i = 0
     while
       print("> ")
-      var line = testPhrases(i % testPhrases.length)
-      i += 1
-      println(line)
-      evaluateInput(tokenizerSvc, analyzerSvc, session)(line)
+      evaluateInput(tokenizerSvc, analyzerSvc, session)(StdIn.readLine)
+      // var line = testPhrases(i % testPhrases.length)
+      // i += 1
+      // println(line)
+      // evaluateInput(tokenizerSvc, analyzerSvc, session)(line)
     do ()
   end main
-
-  // evaluateInput(tokenizerSvc, analyzerSvc, session)(StdIn.readLine)
 
   private val testPhrases = List(
     "Je suis assoiffé !",

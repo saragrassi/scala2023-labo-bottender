@@ -51,16 +51,8 @@ object MainTokenizer:
 
     while
       print("> ")
-      evaluateInput(tokenizerSvc)("Combien coûte 1 bière PunkIPA ?")
       val line: String = StdIn.readLine
       evaluateInput(tokenizerSvc)(line)
-      // evaluateInput(tokenizerSvc)("Bonjour, je suis assoiffé !")
-      // evaluateInput(tokenizerSvc)(
-      //   "Bonjour, je suis affamé !"
-      // )
-      // evaluateInput(tokenizerSvc)("je suis _Sara")
-      // evaluateInput(tokenizerSvc)("je suis _Michel")
-      // evaluateInput(tokenizerSvc)("quitter")
     do ()
   end main
 end MainTokenizer
